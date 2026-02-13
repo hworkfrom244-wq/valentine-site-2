@@ -1,87 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>For Someone Special ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Grand Gift Offer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
 body{
-margin:0;
-padding:0;
-background: linear-gradient(to right, #ff4e50, #fc913a);
-font-family: Arial, sans-serif;
-text-align:center;
-color:white;
-overflow:hidden;
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(135deg,#ff4e8a,#ff0066);
+    color:white;
+    text-align:center;
 }
-
+.hero img{
+    width:100%;
+    display:block;
+}
 .container{
-margin-top:120px;
+    padding:25px;
 }
-
-h1{
-font-size:40px;
+.card{
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    margin-top:-40px;
 }
-
-p{
-font-size:20px;
+input{
+    width:90%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    margin-top:10px;
 }
-
 button{
-padding:15px 30px;
-font-size:18px;
-border:none;
-border-radius:25px;
-cursor:pointer;
-background:white;
-color:#ff4e50;
-margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:#ff0066;
+    color:white;
+    font-size:16px;
+    margin-top:15px;
+    cursor:pointer;
 }
-
 button:hover{
-background:#ffe6e6;
+    background:#cc0052;
 }
-
-.heart{
-position: fixed;
-bottom: -10px;
-font-size:20px;
-animation: float 5s linear infinite;
+#codeBox{
+    margin-top:15px;
+    font-weight:bold;
+    font-size:18px;
+    color:#ff0066;
 }
-
-@keyframes float{
-0%{ transform: translateY(0); opacity:1;}
-100%{ transform: translateY(-800px); opacity:0;}
+#thanks{
+    display:none;
+    margin-top:20px;
+    font-size:18px;
+    color:green;
 }
 </style>
 </head>
 
 <body>
 
+<div class="hero">
+    <img src="valentine.jpg" alt="Valentine Offer">
+</div>
+
 <div class="container">
-<h1>Happy Valentine Priya ❤️</h1>
-<p>You are my today, tomorrow and forever 💖</p>
-<button onclick="showLove()">Click for Surprise 💌</button>
+<div class="card">
+
+<h1>🎁 Valentine Grand Gift Entry 🎁</h1>
+
+<p>Enter your name to generate your unique entry code.</p>
+
+<input type="text" id="name" placeholder="Enter Your Name">
+
+<br>
+<button onclick="generateCode()">Generate Unique Code</button>
+
+<div id="codeBox"></div>
+
+<button id="copyBtn" onclick="copyCode()" style="display:none;">Copy Code</button>
+
+<br>
+
+<button onclick="shareWhatsApp()" id="waBtn" style="display:none;">Share on WhatsApp</button>
+
+<br>
+
+<button onclick="goToForm()">Open Google Form</button>
+
+<div id="thanks">
+✅ Thank You! Your participation is recorded.
+</div>
+
+</div>
 </div>
 
 <script>
-function showLove(){
-alert("Will you be mine forever? 💍❤️");
+
+let generatedCode = "";
+let formLink = "https://docs.google.com/forms/d/e/1FAIpQLSfX0ej2Nq4VlONctK7fpyl19__rNHEv-Ml-JVwnboR5u3Tjew/viewform";
+
+function generateCode(){
+    let name = document.getElementById("name").value;
+    if(name==""){
+        alert("Please enter your name");
+        return;
+    }
+
+    generatedCode = "VAL" + name.substring(0,3).toUpperCase() + Math.floor(1000 + Math.random()*9000);
+
+    document.getElementById("codeBox").innerHTML = "Your Unique Code: " + generatedCode;
+    document.getElementById("copyBtn").style.display="inline-block";
+    document.getElementById("waBtn").style.display="inline-block";
 }
 
-function createHeart(){
-const heart = document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML = "❤️";
-heart.style.left = Math.random() * 100 + "vw";
-heart.style.fontSize = Math.random() * 20 + 15 + "px";
-heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-document.body.appendChild(heart);
-
-setTimeout(() => {
-heart.remove();
-}, 5000);
+function copyCode(){
+    navigator.clipboard.writeText(generatedCode);
+    alert("Code Copied Successfully!");
 }
 
-setInterval(createHeart, 500);
+function shareWhatsApp(){
+    let message = "🎁 Valentine Gift Offer 🎁\n\nUse my code: " + generatedCode + 
+    "\n\nFill form here:\n" + formLink;
+
+    let url = "https://wa.me/?text=" + encodeURIComponent(message);
+    window.open(url,"_blank");
+}
+
+function goToForm(){
+    window.open(formLink,"_blank");
+    document.getElementById("thanks").style.display="block";
+}
+
 </script>
 
 </body>
